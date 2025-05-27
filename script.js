@@ -1,72 +1,18 @@
-// script.js for Lost & Found Portal
-
-// --- Sign Up Logic ---
-document.getElementById('signupForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = this.username.value.trim();
-    const email = this.email.value.trim().toLowerCase();
-    const password = this.password.value;
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-    if (users.find(u => u.email === email)) {
-        alert('Email already registered.');
-        return;
-    }
-    users.push({ username, email, password });
-    localStorage.setItem('users', JSON.stringify(users));
-    alert('Registration successful! You can now sign in.');
-    window.location.href = 'signin.html';
-});
-
-// --- Sign In Logic ---
-document.getElementById('signinForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = this.email.value.trim().toLowerCase();
-    const password = this.password.value;
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        alert('Sign in successful!');
-        window.location.href = 'index.html';
-    } else {
-        alert('Invalid email or password.');
-    }
-});
-
-// --- Forgot Password Logic ---
-document.getElementById('forgotForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    
-    // EmailJS ile e-posta gönder
-    emailjs.sendForm("service_rzi5vs5", "template_vjob3qk",this).then (function() 
-    {
-            document.getElementById('resetMessage').textContent = 
-                "Password reset link sent to your email!";
-        }, function(error) {
-            document.getElementById('resetMessage').textContent = 
-                "Error: " + error;
-        });
-});
-
-    
-        
-
-
 // --- Report Item Logic ---
 document.getElementById('reportForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (!user) {
+        alert('You must be signed in to report an item.');
+        window.location.href = 'signin.html';
+        e.preventDefault();
+        return;
+    }
+    // ...mevcut kodun...
     const type = this.type.value;
     const itemName = this.itemName.value.trim();
     const description = this.description.value.trim();
     const contact = this.contact.value.trim();
     const imageInput = this.image;
-    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    if (!user) {
-        alert('You must be signed in to report an item.');
-        window.location.href = 'signin.html';
-        return;
-    }
     const saveItem = (imageData) => {
         let items = JSON.parse(localStorage.getItem('items') || '[]');
         items.push({
@@ -95,9 +41,20 @@ document.getElementById('reportForm')?.addEventListener('submit', function(e) {
 
 // --- List/Search Items Logic ---
 window.addEventListener('DOMContentLoaded', function() {
+    // Giriş kontrolü: Sadece list.html'de çalışır
+    if (window.location.pathname.endsWith('list.html')) {
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!user) {
+            alert('You must be signed in to view items.');
+            window.location.href = 'signin.html';
+            return;
+        }
+    }
+
     const itemsList = document.getElementById('itemsList');
     const searchBar = document.getElementById('searchBar');
     if (!itemsList) return;
+    
     function renderItems(filter = '') {
         let items = JSON.parse(localStorage.getItem('items') || '[]');
         if (filter) {
@@ -125,4 +82,4 @@ window.addEventListener('DOMContentLoaded', function() {
     searchBar?.addEventListener('input', function() {
         renderItems(this.value);
     });
-}); 
+});
