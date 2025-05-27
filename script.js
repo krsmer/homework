@@ -7,7 +7,7 @@ document.getElementById('reportForm')?.addEventListener('submit', function(e) {
         e.preventDefault();
         return;
     }
-    // ...mevcut kodun...
+    
     const type = this.type.value;
     const itemName = this.itemName.value.trim();
     const description = this.description.value.trim();
@@ -41,7 +41,7 @@ document.getElementById('reportForm')?.addEventListener('submit', function(e) {
 
 // --- List/Search Items Logic ---
 window.addEventListener('DOMContentLoaded', function() {
-    // Giriş kontrolü: Sadece list.html'de çalışır
+    // Giriş kontrolü: 
     if (window.location.pathname.endsWith('list.html')) {
         const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
         if (!user) {
