@@ -63,7 +63,7 @@ main {
     text-align: center;
     position: relative;
     top: 40px;
-    animation: strong-pulse 1.5s infinite alternate;
+    animation: strong-pulse 2.5s infinite alternate;
     transition: all 0.7s ease;
 
 }
