@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FINDER</title>
+    <title>Logout | FINDER</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
     <nav>
@@ -18,14 +19,15 @@
         <a href="logout.html">Logout</a>
     </nav>
     <main>
-        <h2>Sign In</h2>
-        <form id="signinForm">
-            <label>Email:<input type="email" name="email" required></label><br>
-            <label>Password:<input type="password" name="password" required></label><br>
-            <button type="submit">Sign In</button>
-        </form>
-        <p><a href="forgot.html">Forgot your password?</a></p>
+        <h2>You have been logged out.</h2>
+        <p>Redirecting to home page...</p>
     </main>
-    <script src="script.js"></script>
+    <script>
+        // Kullanıcıyı çıkış yaptır
+        localStorage.removeItem('currentUser');
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 1800);
+    </script>
 </body>
-</html> 
+</html>
