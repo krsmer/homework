@@ -1,3 +1,16 @@
+@keyframes strong-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(193, 162, 235, 0.5),
+                0 6px 32px rgba(60, 41, 70, 0.10);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(143, 64, 248, 0),
+                0 6px 32px rgba(60, 41, 70, 0.10);
+  }
+}
+
+
+
 body {
     font-family: 'Segoe UI', 'Arial', sans-serif;
     background: linear-gradient(135deg, #f8fafc 0%, #e3e6ec 100%);
@@ -46,10 +59,13 @@ main {
     background: #fff;
     padding: 36px 28px 32px 28px;
     border-radius: 18px;
-    box-shadow: 0 6px 32px rgba(35, 41, 70, 0.10);
+    box-shadow: 0 6px 32px rgba(60, 41, 70, 0.10);
     text-align: center;
     position: relative;
-    top: 24px;
+    top: 40px;
+    animation: strong-pulse 1.5s infinite alternate;
+    transition: all 0.7s ease;
+
 }
 
 h1, h2 {
