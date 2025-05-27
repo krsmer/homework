@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINDER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="signin.html">Sign In</a>
+        <a href="forgot.html">Forgot Password</a>
+        <a href="report.html">Report Item</a>
+        <a href="list.html">List/Search Items</a>
+        <a href="help.html">Help/FAQ</a>
+    </nav>
+    <main>
+        <h2>Report Lost or Found Item</h2>
+        <form id="reportForm" enctype="multipart/form-data">
+            <label>Type:
+                <select name="type" required>
+                    <option value="lost">Lost</option>
+                    <option value="found">Found</option>
+                </select>
+            </label><br>
+            <label>Item Name:<input type="text" name="itemName" required></label><br>
+            <label>Description:<textarea name="description" required></textarea></label><br>
+            <label>Image:<input type="file" name="image" accept="image/*"></label><br>
+            <label>Contact Info:<input type="text" name="contact" required></label><br>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html> 
