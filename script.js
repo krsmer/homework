@@ -1,13 +1,57 @@
+// --- Sign Up Logic ---
+document.getElementById('signupForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = this.username.value.trim();
+    const email = this.email.value.trim().toLowerCase();
+    const password = this.password.value;
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    if (users.find(u => u.email === email)) {
+        alert('Email already registered.');
+        return;
+    }
+    users.push({ username, email, password });
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Registration successful! You can now sign in.');
+    window.location.href = 'signin.html';
+});
+
+// --- Sign In Logic ---
+document.getElementById('signinForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.email.value.trim().toLowerCase();
+    const password = this.password.value;
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(u => u.email === email && u.password === password);
+    if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        alert('Sign in successful!');
+        window.location.href = 'index.html';
+    } else {
+        alert('Invalid email or password.');
+    }
+});
+
+// --- Forgot Password Logic ---
+document.getElementById('forgotForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    emailjs.sendForm("service_rzi5vs5", "template_vjob3qk", this).then(function() {
+        document.getElementById('resetMessage').textContent =
+            "Password reset link sent to your email!";
+    }, function(error) {
+        document.getElementById('resetMessage').textContent =
+            "Error: " + error;
+    });
+});
+
 // --- Report Item Logic ---
 document.getElementById('reportForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
     const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
     if (!user) {
         alert('You must be signed in to report an item.');
         window.location.href = 'signin.html';
-        e.preventDefault();
         return;
     }
-    
     const type = this.type.value;
     const itemName = this.itemName.value.trim();
     const description = this.description.value.trim();
@@ -28,7 +72,7 @@ document.getElementById('reportForm')?.addEventListener('submit', function(e) {
         alert('Item reported successfully!');
         window.location.href = 'list.html';
     };
-    if (imageInput.files && imageInput.files[0]) {
+    if (imageInput && imageInput.files && imageInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
             saveItem(evt.target.result);
@@ -41,7 +85,7 @@ document.getElementById('reportForm')?.addEventListener('submit', function(e) {
 
 // --- List/Search Items Logic ---
 window.addEventListener('DOMContentLoaded', function() {
-    // Giriş kontrolü: 
+    // Giriş kontrolü: Sadece list.html'de çalışır
     if (window.location.pathname.endsWith('list.html')) {
         const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
         if (!user) {
@@ -54,7 +98,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const itemsList = document.getElementById('itemsList');
     const searchBar = document.getElementById('searchBar');
     if (!itemsList) return;
-    
+
     function renderItems(filter = '') {
         let items = JSON.parse(localStorage.getItem('items') || '[]');
         if (filter) {
